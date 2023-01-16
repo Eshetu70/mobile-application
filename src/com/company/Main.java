@@ -1,6 +1,8 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Set;
 
 public class Main {
@@ -15,7 +17,10 @@ public class Main {
         Integer[] numbers ={1, 3,8, -10, 78};
         System.out.println(Main.getMinimum(numbers));
         ArrayList<User> user= Main.getParsedUsers(Data.users);
-        System.out.println(user);
+       // System.out.println(user);
+
+        //Main.printUsers_OMN(user);
+        Main.printUsersSortedByAge(user);
     }
 
     //Question 1
@@ -68,6 +73,32 @@ public class Main {
             users.add(user);
         }
      return users;
+    }
+
+    public static void printUsers_OMN(ArrayList<User> users){
+        for (User user:users
+             ) {
+            if(user.getFname().startsWith("O") ||user.getFname().startsWith("M")|| user.getFname().startsWith("N")) {
+                System.out.println(user.getFname());
+            }
+
+        }
+
+    }
+
+    public static void printUsersSortedByAge(ArrayList<User> users){
+        Collections.sort(users, new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+
+                return (o1.getAge()-o2.getAge());
+            }
+        });
+        for (User user:users
+             ) {
+            System.out.println(user.getAge()+" "+user.getFname());
+
+        }
     }
 
 /*
