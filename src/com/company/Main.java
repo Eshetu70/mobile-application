@@ -1,9 +1,6 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Set;
+import java.util.*;
 
 public class Main {
 
@@ -20,7 +17,14 @@ public class Main {
        // System.out.println(user);
 
         //Main.printUsers_OMN(user);
-        Main.printUsersSortedByAge(user);
+        //Main.printUsersSortedByAge(user);
+        //Main.printUsersOldest10(user);
+        //Main.printUserStateStats(user);
+        //Set<String> overlap = Main.getWordOverlap(Data.words_1, Data.words_2);
+        //System.out.println(overlap);
+        ArrayList<User> usersA= Main.getParsedUsers(Data.users);
+        ArrayList<User> usersB= Main.getParsedUsers(Data.otherUsers);
+        System.out.println(Main.getUserOverlap(usersA, usersB));
     }
 
     //Question 1
@@ -101,6 +105,74 @@ public class Main {
         }
     }
 
+    public static void printUsersOldest10(ArrayList<User> users){
+        Collections.sort(users, new Comparator<User>() {
+
+            @Override
+            public int compare(User o1, User o2) {
+                return (-1*(o1.getAge()-o2.getAge()));
+            }
+        });
+        for (int i = 0; i <Math.min(10, users.size()) ; i++) {
+            User user =users.get(i);
+            System.out.println(user.getAge()+" "+ user.getFname());
+        }
+    }
+
+    public static void printUserStateStats(ArrayList<User> users){
+        HashMap<String, Integer> counts =new HashMap<>();
+        for (User user:users
+             ) {
+            if(counts.containsKey(user.getState())){
+                Integer currentCounts =counts.get(user.getState());
+                counts.put(user.getState(), currentCounts+1);
+            }else {
+                counts.put(user.getState(), 1);
+            }
+
+        }
+        for (String key:counts.keySet()
+             ) {
+            System.out.println(key +": "+ counts.get(key));
+            
+        }
+
+    }
+
+    public static Set<String> getWordOverlap(String[] listA, String[] listB){
+        HashSet<String> overlap =new HashSet<>();
+        HashSet<String> setA =new HashSet<>();
+        for (String word:listA
+             ) {
+            setA.add(word);
+
+        }
+        for (String word:listB
+             ) {
+            if (setA.contains(word)){
+                overlap.add(word);
+            }
+
+        }
+        return overlap;
+    }
+
+    public static ArrayList<User> getUserOverlap(ArrayList<User> usersA, ArrayList<User> usersB){
+        HashSet<User> overlap = new HashSet<>();
+        HashSet<User> setA = new HashSet<>();
+        for (User user:usersA
+             ) {
+            setA.add(user);
+
+        }
+        for (User user:usersB
+             ) {
+            if(setA.contains(user)){
+                overlap.add(user);
+            }
+        }
+   return new ArrayList<>(overlap);
+    }
 /*
     //Question 4
     public static ArrayList<User> getParsedUsers(String[] strings){
